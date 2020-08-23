@@ -1,30 +1,46 @@
 import local.domain.*
-def call(body) {
-    def config = [:]
-    body.resolveStrategy = Closure.DELEGATE_FIRST
-    body.delegate = config
-    body()
 
-    // Ensure imported classes are null
-    Docker docker = null
+podTemplate(
+  cloud: 'kubernetes',
+  namespace: 'jenkins',
+  activeDeadlineSeconds: '300',
+  showRawYaml: 'false',
+  containers: [
+  containerTemplate(
+    name: 'centos',
+    image: 'centos:centos7',
+    ttyEnabled: true,
+    privileged: true,
+    command: '/usr/sbin/init'
+  )
+]) {
+    def call(body) {
+        def config = [:]
+        body.resolveStrategy = Closure.DELEGATE_FIRST
+        body.delegate = config
+        body()
 
-    try {
-        node("jenkins-slave") {
-            stage("Clean Workspace") {
-                cleanWs()
+        // Ensure imported classes are null
+        Docker docker = null
+
+        try {
+            node(POD_LABEL) {
+                stage("Clean Workspace") {
+                    cleanWs()
+                }
+
+                stage("Create Dependencies") {
+                    docker = new Docker(this)
+                }
+
+                stage("Run Docker Class") {
+                    docker.test("${config.message}")
+                }
             }
-
-            stage("Create Dependencies") {
-                docker = new Docker(this)
-            }
-
-            stage("Run Docker Class") {
-                docker.test("${config.message}")
-            }
+        } catch (e) {
+            echo "Exception: ${e}"
+            currentBuild.result = 'FAILURE'
+        } finally {
         }
-    } catch (e) {
-        echo "Exception: ${e}"
-        currentBuild.result = 'FAILURE'
-    } finally {
     }
 }
