@@ -17,11 +17,15 @@ def call(body) {
                 sh "echo \"${config.message}\""
                 docker.test("${config.message}")
             }
+
+            stage("Clean Workspace") {
+                cleanWs()
+            }
         }
     } catch (e) {
         echo "Exception: ${e}"
         currentBuild.result = 'FAILURE'
     } finally {
-        cleanWs()
+        
     }
 }
