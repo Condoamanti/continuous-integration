@@ -14,33 +14,35 @@ podTemplate(
     command: '/usr/sbin/init'
   )
 ]) {
-    def call(body) {
-        def config = [:]
-        body.resolveStrategy = Closure.DELEGATE_FIRST
-        body.delegate = config
-        body()
 
-        // Ensure imported classes are null
-        Docker docker = null
 
-        try {
-            node(POD_LABEL) {
-                stage("Clean Workspace") {
-                    cleanWs()
-                }
+    try {
+        node(POD_LABEL) {
+        def call(body) {
+            def config = [:]
+            body.resolveStrategy = Closure.DELEGATE_FIRST
+            body.delegate = config
+            body()
 
-                stage("Create Dependencies") {
-                    docker = new Docker(this)
-                }
+            // Ensure imported classes are null
+            Docker docker = null
 
-                stage("Run Docker Class") {
-                    docker.test("${config.message}")
-                }
+            stage("Clean Workspace") {
+                cleanWs()
             }
-        } catch (e) {
-            echo "Exception: ${e}"
-            currentBuild.result = 'FAILURE'
-        } finally {
+
+            stage("Create Dependencies") {
+                docker = new Docker(this)
+            }
+
+            stage("Run Docker Class") {
+                docker.test("${config.message}")
+            }
         }
+    }
+    } catch (e) {
+        echo "Exception: ${e}"
+        currentBuild.result = 'FAILURE'
+    } finally {
     }
 }
