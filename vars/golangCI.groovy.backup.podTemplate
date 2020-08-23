@@ -1,0 +1,49 @@
+import local.domain.*
+
+def call(body) {
+    def config = [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = config
+    body()
+
+    // podTemplate configuration for the container running the below stages
+    podTemplate(
+    cloud: 'kubernetes',
+    namespace: 'jenkins',
+    activeDeadlineSeconds: '300',
+    showRawYaml: 'false',
+    containers: [
+        containerTemplate(
+            name: 'centos',
+            image: 'centos:centos7',
+            ttyEnabled: true,
+            privileged: true,
+            command: '/usr/sbin/init'
+        )
+    ]) {
+
+        try {
+            node(POD_LABEL) {
+
+                // Ensure imported classes are null
+                Docker docker = null
+
+                stage("Clean Workspace") {
+                    cleanWs()
+                } // stage end
+
+                stage("Create Dependencies") {
+                    docker = new Docker(this)
+                } // stage end
+
+                stage("Run Docker Class") {
+                    docker.test("${config.message}")
+                } // stage end
+                
+            } // node end
+        } catch (e) {
+            echo "Exception: ${e}"
+            currentBuild.result = 'FAILURE'
+        }
+    } // podTemplate end
+} // call(body) end
