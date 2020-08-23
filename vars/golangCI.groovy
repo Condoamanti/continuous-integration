@@ -12,8 +12,8 @@ def call(body) {
     namespace: 'jenkins',
     activeDeadlineSeconds: '300',
     showRawYaml: 'false',
-    runAsUser: 0,
-    runAsGroup: 1000,
+    runAsUser: "0",
+    runAsGroup: "1000",
     containers: [
         containerTemplate(
             name: 'centos',
