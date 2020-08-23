@@ -48,11 +48,11 @@ def call(body) {
 
                 container("centos") {
                     stage("Remove Default CentOS7 Repositories") {
-                    sh "rm -rf /etc/yum.repos.d/*"
+                    sh """rm -rf /etc/yum.repos.d/*"""
                     } // stage end
 
                     stage("Setup Artifactory Repository") {
-                        sh "pwd"
+                        sh """pwd"""
                         dir("/etc/yum.repos.d")
                         writeFile file: "artifactory.repo", text: """# Artifactory Repository
 [artifactory-centos-7-os]
@@ -90,16 +90,16 @@ gpgcheck=0
                     } // stage end
 
                     stage("Download Docker Dependencies") {
-                    sh "
+                    sh """
                     yum update --assumeyes --quiet
                     yum install --assumeyes --quiet container-selinux
                     yum install --assumeyes --quiet yum-utils
                     yum clean all
-                    "
+                    """
                     } // stage end
 
                     stage("Download Docker") {
-                    sh "
+                    sh """
                     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
                     yum install --assumeyes --quiet docker-ce
                     yum clean all
@@ -109,14 +109,14 @@ gpgcheck=0
                     usermod -aG docker root
 
                     systemctl start docker
-                    "
+                    """
                     } // stage end
 
                     stage("Build Docker Image") {
-                    sh "
+                    sh """
                     docker build -t condoamanti/dockergo ./go/web
                     ls ./go/web
-                    "
+                    """
                     } // stage end
                 } // container end
             } // node end
