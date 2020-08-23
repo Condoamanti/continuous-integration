@@ -14,7 +14,7 @@ def call(body) {
             }
 
             stage("stage2") {
-                docker.test("test-message")
+                docker.test()
             }
         }
     } catch (e) {
