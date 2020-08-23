@@ -46,15 +46,15 @@ def call(body) {
                     git url: 'https://github.com/Condoamanti/programming.git'
                 } // stage end
 
-                container('centos') {
-                    stage('Remove Default CentOS7 Repositories') {
+                container("centos") {
+                    stage("Remove Default CentOS7 Repositories") {
                     sh "rm -rf /etc/yum.repos.d/*"
                     } // stage end
 
-                    stage('Setup Artifactory Repository') {
+                    stage("Setup Artifactory Repository") {
                         sh "pwd"
                         dir("/etc/yum.repos.d")
-                        writeFile file: "artifactory.repo", text: '''# Artifactory Repository
+                        writeFile file: "artifactory.repo", text: """# Artifactory Repository
 [artifactory-centos-7-os]
 name=artifactory-centos-7-os
 baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/os/x86_64
@@ -84,21 +84,22 @@ name=artifactory-centos-7-cr
 baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/cr/x86_64
 enabled=1
 gpgcheck=0
-'''
-                    dir("/home/jenkins/agent/workspace/programming_golang_web_master")
+"""
+                        dir("/home/jenkins/agent/workspace/programming_golang_web_master")
+                        print("here")
                     } // stage end
 
-                    stage('Download Docker Dependencies') {
-                    sh """
+                    stage("Download Docker Dependencies") {
+                    sh "
                     yum update --assumeyes --quiet
                     yum install --assumeyes --quiet container-selinux
                     yum install --assumeyes --quiet yum-utils
                     yum clean all
-                    """
+                    "
                     } // stage end
 
-                    stage('Download Docker') {
-                    sh """
+                    stage("Download Docker") {
+                    sh "
                     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
                     yum install --assumeyes --quiet docker-ce
                     yum clean all
@@ -108,14 +109,14 @@ gpgcheck=0
                     usermod -aG docker root
 
                     systemctl start docker
-                    """
+                    "
                     } // stage end
 
-                    stage('Build Docker Image') {
-                    sh """
+                    stage("Build Docker Image") {
+                    sh "
                     docker build -t condoamanti/dockergo ./go/web
                     ls ./go/web
-                    """
+                    "
                     } // stage end
                 } // container end
             } // node end
