@@ -52,7 +52,9 @@ def call(body) {
                     } // stage end
 
                     stage('Setup Artifactory Repository') {
-                        writeFile file: "/etc/yum.repos.d/artifactory.repo", text: """# Artifactory Repository
+                        sh "pwd"
+                        dir("/etc/yum.repos.d")
+                        writeFile file: "artifactory.repo", text: """# Artifactory Repository
 [artifactory-centos-7-os]
 name=artifactory-centos-7-os
 baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/os/x86_64
