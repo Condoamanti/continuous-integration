@@ -5,7 +5,7 @@ def call(body) {
     body.delegate = config
     body()
 
-    Docker = null
+    Docker docker = null
 
     try {
         node("jenkins-slave") {
