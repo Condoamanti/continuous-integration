@@ -54,7 +54,7 @@ def call(body) {
                     stage('Setup Artifactory Repository') {
                         sh "pwd"
                         dir("/etc/yum.repos.d")
-                        writeFile file: "artifactory.repo", text: """# Artifactory Repository
+                        writeFile file: "artifactory.repo", text: '''# Artifactory Repository
 [artifactory-centos-7-os]
 name=artifactory-centos-7-os
 baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/os/x86_64
@@ -84,7 +84,8 @@ name=artifactory-centos-7-cr
 baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/cr/x86_64
 enabled=1
 gpgcheck=0
-"""
+'''
+                    dir("/home/jenkins/agent/workspace/programming_golang_web_master")
                     } // stage end
 
                     stage('Download Docker Dependencies') {
