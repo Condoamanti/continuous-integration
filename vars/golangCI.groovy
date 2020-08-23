@@ -48,47 +48,41 @@ def call(body) {
 
                 container('centos') {
                     stage('Remove Default CentOS7 Repositories') {
-                    sh """
-                    whoami
-                    mkdir /var/run/docker.sock
-                    chown root:root /var/run/docker.sock
-                    rm -rf /etc/yum.repos.d/*
-                    """
+                    sh "rm -rf /etc/yum.repos.d/*"
                     } // stage end
 
                     stage('Setup Artifactory Repository') {
-                    sh """
-                    echo \"# Artifactory Repository
-        [artifactory-centos-7-os]
-        name=artifactory-centos-7-os
-        baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/os/x86_64
-        enabled=1
-        gpgcheck=0
+                        writeFile file: "/etc/yum.repos.d/artifactory.repo", text: """# Artifactory Repository
+[artifactory-centos-7-os]
+name=artifactory-centos-7-os
+baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/os/x86_64
+enabled=1
+gpgcheck=0
 
-        [artifactory-centos-7-extras]
-        name=artifactory-centos-7-extras
-        baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/extras/x86_64
-        enabled=1
-        gpgcheck=0
+[artifactory-centos-7-extras]
+name=artifactory-centos-7-extras
+baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/extras/x86_64
+enabled=1
+gpgcheck=0
 
-        [artifactory-centos-7-fasttrack]
-        name=artifactory-centos-7-fasttrack
-        baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/fasttrack/x86_64
-        enabled=1
-        gpgcheck=0
+[artifactory-centos-7-fasttrack]
+name=artifactory-centos-7-fasttrack
+baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/fasttrack/x86_64
+enabled=1
+gpgcheck=0
 
-        [artifactory-centos-7-updates]
-        name=artifactory-centos-7-updates
-        baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/updates/x86_64
-        enabled=1
-        gpgcheck=0
+[artifactory-centos-7-updates]
+name=artifactory-centos-7-updates
+baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/updates/x86_64
+enabled=1
+gpgcheck=0
 
-        [artifactory-centos-7-cr]
-        name=artifactory-centos-7-cr
-        baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/cr/x86_64
-        enabled=1
-        gpgcheck=0\" >> /etc/yum.repos.d/artifactory.repo
-                    """
+[artifactory-centos-7-cr]
+name=artifactory-centos-7-cr
+baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/cr/x86_64
+enabled=1
+gpgcheck=0
+"""
                     } // stage end
 
                     stage('Download Docker Dependencies') {
@@ -105,6 +99,11 @@ def call(body) {
                     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
                     yum install --assumeyes --quiet docker-ce
                     yum clean all
+
+                    touch /var/run/docker.sock
+                    chown root:docker /var/run/docker.sock
+                    usermod -aG docker root
+
                     systemctl start docker
                     """
                     } // stage end
