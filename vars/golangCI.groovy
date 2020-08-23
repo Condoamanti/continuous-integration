@@ -5,27 +5,26 @@ def call(body) {
     body.delegate = config
     body()
 
+    // Ensure imported classes are null
     Docker docker = null
 
     try {
         node("jenkins-slave") {
-            stage("stage1") {
+            stage("Clean Workspace") {
+                cleanWs()
+            }
+
+            stage("Create Dependencies") {
                 docker = new Docker(this)
             }
 
-            stage("stage2") {
-                sh "echo \"${config.message}\""
+            stage("Run Docker Class") {
                 docker.test("${config.message}")
-            }
-
-            stage("Clean Workspace") {
-                cleanWs()
             }
         }
     } catch (e) {
         echo "Exception: ${e}"
         currentBuild.result = 'FAILURE'
     } finally {
-        
     }
 }
