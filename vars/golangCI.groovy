@@ -48,13 +48,14 @@ def call(body) {
 
                 container("centos") {
                     stage("Remove Default CentOS7 Repositories") {
-                    sh """rm -rf /etc/yum.repos.d/*"""
+                    sh """
+                    rm -rf /etc/yum.repos.d/*
+                    """
                     } // stage end
 
                     stage("Setup Artifactory Repository") {
-                        sh """pwd"""
-                        dir("/etc/yum.repos.d")
-                        writeFile file: "artifactory.repo", text: """# Artifactory Repository
+                        sh """
+                        echo \"# Artifactory Repository
 [artifactory-centos-7-os]
 name=artifactory-centos-7-os
 baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/os/x86_64
@@ -83,10 +84,8 @@ gpgcheck=0
 name=artifactory-centos-7-cr
 baseurl=http://admin:AP72goB1ugbhNixgk4oZQD1JSMK@k8snode1dc1.jittersolutions.com:32382/artifactory/rpm/7/cr/x86_64
 enabled=1
-gpgcheck=0
+gpgcheck=0\" >> /etc/yum.repos.d/artifactory.repo 2>&1
 """
-                        dir("/home/jenkins/agent/workspace/programming_golang_web_master")
-                        print("here")
                     } // stage end
 
                     stage("Download Docker Dependencies") {
