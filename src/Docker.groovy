@@ -7,6 +7,6 @@ class Docker {
     }
 
     def test(message = "Hello, World!") {
-        print("${message}")
+        script.sh "echo \"message: ${message}\""
     }
 }
