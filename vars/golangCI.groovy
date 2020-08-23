@@ -14,12 +14,14 @@ def call(body) {
             }
 
             stage("stage2") {
-                docker.test()
+                sh "echo \"${config.message}\""
+                docker.test("${config.message}")
             }
         }
     } catch (e) {
         echo "Exception: ${e}"
         currentBuild.result = 'FAILURE'
     } finally {
+        cleanWs()
     }
 }
