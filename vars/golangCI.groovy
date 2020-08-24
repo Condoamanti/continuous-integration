@@ -102,6 +102,8 @@ gpgcheck=0\" >> /etc/yum.repos.d/artifactory.repo 2>&1
                     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
                     yum install --assumeyes --quiet docker-ce docker-ce-cli containerd.io
                     yum clean all
+                    
+                    setenforce 0
 
                     touch /var/run/docker.sock
                     chown root:docker /var/run/docker.sock
