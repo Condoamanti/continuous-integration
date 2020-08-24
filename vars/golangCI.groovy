@@ -100,7 +100,7 @@ gpgcheck=0\" >> /etc/yum.repos.d/artifactory.repo 2>&1
                     stage("Download Docker") {
                     sh """
                     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-                    yum install --assumeyes --quiet docker-ce
+                    yum install --assumeyes --quiet docker-ce docker-ce-cli containerd.io
                     yum clean all
 
                     touch /var/run/docker.sock
@@ -113,7 +113,6 @@ gpgcheck=0\" >> /etc/yum.repos.d/artifactory.repo 2>&1
 
                     stage("Build Docker Image") {
                     sh """
-                    ls
                     docker build -t condoamanti/dockergo ./golang/web
                     ls ./golang/web
                     """
