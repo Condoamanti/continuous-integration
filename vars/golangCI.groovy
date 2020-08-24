@@ -107,7 +107,9 @@ gpgcheck=0\" >> /etc/yum.repos.d/artifactory.repo 2>&1
                     chown root:docker /var/run/docker.sock
                     usermod -aG docker root
 
+                    echo \"###########################\"
                     systemctl start docker
+                    systemctl status docker
                     """
                     } // stage end
 
