@@ -113,6 +113,7 @@ gpgcheck=0\" >> /etc/yum.repos.d/artifactory.repo 2>&1
 
                     stage("Build Docker Image") {
                     sh """
+                    ls
                     docker build -t condoamanti/dockergo ./go/web
                     ls ./go/web
                     """
