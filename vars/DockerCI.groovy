@@ -22,8 +22,9 @@ def call(body) {
 
             stage("Create Dockerfile") {
                 utilities.appendFile("Dockerfile", "FROM ${config.imageName}:${config.imageTag}")
-                if (config.maintainerName != null &&0. config.maintainerEmail != null) {
-                    utilities.appendFile("Dockerfile", "LABEL MAINTAINER ${config.maintainerName} ${config.maintainerEmail}")
+                
+                if (config.maintainer != null) {
+                    utilities.appendFile("Dockerfile", "LABEL MAINTAINER ${config.maintainer}")
                 }
 
                 sh """
