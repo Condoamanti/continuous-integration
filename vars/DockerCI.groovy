@@ -23,6 +23,7 @@ def call(body) {
             stage("Create Dockerfile") {
                 utilities.appendFile("Dockerfile", "FROM ${config.imageName}:${config.imageTag}")
                 sh """
+                ls -lah
                 cat ./Dockerfile
                 """
             }
