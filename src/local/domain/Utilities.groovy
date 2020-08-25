@@ -11,10 +11,10 @@ class Utilities {
     def appendFile(String fileName, String line, String encoding = "UTF-8") {
         if (new File("${fileName}").exists() == false) {
             script.println("HERE1")
-            script.appendFile(file: "${fileName}", text: "${line}")
+            script.writeFile(file: "${fileName}", text: "${line}")
         } else {
             script.println("HERE2")
-            script.appendFile(file: "${fileName}", text: "\n${line}")
+            new File("${fileName}").append("\n${line}")
         }
     }
 
