@@ -22,7 +22,7 @@ def call(body) {
 
             stage("Create Dockerfile") {
                 utilities.appendFile("Dockerfile", "FROM ${config.imageName}:${config.imageTag}")
-                
+
                 if (config.maintainer) {
                     utilities.appendFile("Dockerfile", "LABEL MAINTAINER ${config.maintainer}")
                 }
@@ -31,10 +31,6 @@ def call(body) {
                 ls -lah
                 cat ./Dockerfile
                 """
-            }
-
-            stage("Run Docker Class") {
-                docker.test("${config.message}")
             }
         }
     } catch (e) {
