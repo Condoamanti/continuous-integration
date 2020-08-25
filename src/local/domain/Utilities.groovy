@@ -12,13 +12,12 @@ class Utilities {
         def test = script.fileExists("${fileName}")
         println(test)
         if (script.fileExists("${fileName}") == false) {
-            script.println("HERE1")
+            // Create file if it does not exist already
             script.writeFile(file: "${fileName}", text: "${line}")
         } else {
-            script.println("HERE2")
-            def currentData = script.readFile "${fileName}"
-            script.writeFile file: "${fileName}", text: "${currentData}\n${line}"
-            //new File("${fileName}").append("\n${line}")
+            // Append text to fileName
+            def currentText = script.readFile "${fileName}"
+            script.writeFile file: "${fileName}", text: "${currentText}\n${line}"
         }
     }
 
