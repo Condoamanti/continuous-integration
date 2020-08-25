@@ -10,7 +10,7 @@ class Utilities {
     // Method appendFile which appends text to an existing file
     def appendFile(String fileName, String line, String encoding = "UTF-8") {
         
-        if (script.println new File('input.txt').exists() == false) {
+        if ((script.println new File('input.txt').exists()) == false) {
             script.println("HERE1")
             script.appendFile(file: "${fileName}", text: "${line}")
         } else {
