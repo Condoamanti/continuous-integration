@@ -13,7 +13,7 @@ def call(body) {
 
     try {
         node("jenkins-slave") {
-            withCredentials([string(credentialsId: "57352a4b-46fb-4e1f-bbbe-b7c7c3514ffc", variable: "SECRET")]) {
+            withCredentials([string(credentialsId: "dockerhub_password", variable: "SECRET")]) {
                 echo "Secret: ${SECRET}"
             }
 
