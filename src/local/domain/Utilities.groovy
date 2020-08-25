@@ -8,7 +8,7 @@ class Utilities {
     }
 
     // Method appendFile which appends text to an existing file
-    def appendFile(String fileName, String line) {
+    def appendFile(fileName, String line) {
         if (!fileName.exists()) {
             def file = new File("${fileName}")
             file.createNewFile()
@@ -17,6 +17,6 @@ class Utilities {
             def file = new File("${fileName}")
             file.append("${line}\n")
         }
-        
+
     }
 }
