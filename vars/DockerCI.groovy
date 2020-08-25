@@ -6,6 +6,7 @@ def call(body) {
     body.delegate = config
     body()
 
+    def packageManager = null
     // Ensure imported classes are null
     Docker docker = null
     Utilities utilities = null
@@ -54,7 +55,7 @@ def call(body) {
                 for (i in config.packages) {
                     println(i)
                 }
-                
+
                 sh """
                 ls -lah
                 cat ./Dockerfile
