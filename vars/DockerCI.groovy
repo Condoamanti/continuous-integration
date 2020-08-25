@@ -52,7 +52,7 @@ def call(body) {
                     utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} upgrade --assumeyes")
                 }
 
-                println("${config.packages}")
+                print("${config.packages}")
                 for (i in config.packages) {
                     println(i)
                 }
