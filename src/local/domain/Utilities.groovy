@@ -11,7 +11,7 @@ class Utilities {
     def appendFile(String fileName, String line, String encoding = "UTF-8") {
         if (new File("${fileName}").exists() == false) {
             println("HERE")
-            writeFile(file: "${fileName}", text: "test")
+            writeFile(file: "test", text: "test")
         } else {
             new File("${fileName}").append("\n${line}")
         }
