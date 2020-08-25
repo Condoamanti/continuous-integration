@@ -12,13 +12,14 @@ def call(body) {
     Utilities utilities = null
 
     try {
+        environment {
+            SECRET = credentials('dockerhub_password')
+        }
         node("jenkins-slave") {
-            withCredentials([string(credentialsId: "dockerhub_password", variable: "SECRET")]) {
-                echo "Secret: ${SECRET}"
-            }
-
             stage("Clean Workspace") {
                 cleanWs()
+                echo "secret: ${SECRET}"
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
             }
 
             stage ("Create Class Dependencies") {
