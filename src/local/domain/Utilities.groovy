@@ -11,12 +11,10 @@ class Utilities {
     def appendFile(File fileName, String line) {
         
         if (!fileName.exists()) {
-            def file = new File("${fileName}")
-            file.createNewFile()
-            file.append("${line}\n")
+            fileName.createNewFile()
+            fileName.appendFile("${line}\n")
         } else {
-            def file = new File("${fileName}")
-            file.appendFile("${line}\n")
+            fileName.appendFile("${line}\n")
         }
 
     }
