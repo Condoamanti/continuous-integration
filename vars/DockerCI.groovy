@@ -6,7 +6,7 @@ def call(body) {
     body.delegate = config
     body()
 
-    def packageManager = null
+    def osPackageManager = null
     // Ensure imported classes are null
     Docker docker = null
     Utilities utilities = null
@@ -26,10 +26,10 @@ def call(body) {
                 if (config.imageName == "centos") {
                     switch (config.imageTag) {
                         case "centos8":
-                            def packageManager = "dnf"
+                            osPackageManager = "dnf"
                             break;
                         default:
-                            def packageManager = "yum"
+                            osPackageManager = "yum"
                             break;
                     }
                 }
@@ -43,13 +43,13 @@ def call(body) {
                 // Add line to update docker image
                 if (config.update) {
                     
-                    utilities.appendFile("${config.fileName}", "${packageManager} update --assumeyes")
+                    utilities.appendFile("${config.fileName}", "${osPackageManager} update --assumeyes")
                 }
                 
                 // Add line to upgrade docker image
                 if (config.upgrade) {
                     
-                    utilities.appendFile("${config.fileName}", "${packageManager} upgrade --assumeyes")
+                    utilities.appendFile("${config.fileName}", "${osPackageManager} upgrade --assumeyes")
                 }
 
                 for (i in config.packages) {
