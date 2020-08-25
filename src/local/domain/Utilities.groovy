@@ -8,7 +8,7 @@ class Utilities {
     }
 
     // Method appendFile which appends text to an existing file
-    def appendFile(String fileName, String line, String encoding = "UTF-8") {
+    def appendFile(String fileName = "Dockerfile", String line, String encoding = "UTF-8") {
         def test = script.fileExists("${fileName}")
         println(test)
         if (script.fileExists("${fileName}") == false) {
