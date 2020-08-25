@@ -16,7 +16,7 @@ class Utilities {
             script.writeFile(file: "${fileName}", text: "${line}")
         } else {
             script.println("HERE2")
-            currentData = script.readFile "${fileName}"
+            def currentData = script.readFile "${fileName}"
             script.writeFile file: "${fileName}", text: "${currentData}\n${line}"
             //new File("${fileName}").append("\n${line}")
         }
