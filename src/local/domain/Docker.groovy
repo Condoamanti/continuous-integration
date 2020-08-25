@@ -19,7 +19,7 @@ class Docker {
         script.sh "docker logout ${url}"
     }
 
-    def build(imageName, imageTag) {
-        script.sh "docker build -t ${imageName}:${imageTag}"
+    def build(String imageName, String imageTag, String path = ".") {
+        script.sh "docker build -t ${imageName}:${imageTag} ${path}"
     }
 }
