@@ -21,7 +21,7 @@ def call(body) {
             }
 
             stage("Create Dockerfile") {
-                utilities.appendFile("Dockerfile", "FROM ${config.imageName}:${config.imageTag}")
+                writeFile(file: "Dockerfile", test: "FROM ${config.imageName}:${config.imageTag}", encoding: "UTF-8")
                 sh """
                 ls -lah
                 cat ./Dockerfile
