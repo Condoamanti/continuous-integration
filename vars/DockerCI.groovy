@@ -17,6 +17,7 @@ def call(body) {
 
             stage("Create Dockerfile") {
                 sh """
+                pwd
                 ls
                 """
             }
