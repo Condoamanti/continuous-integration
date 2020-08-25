@@ -11,4 +11,15 @@ class Docker {
     def test(message = "Hello, World!") {
         script.sh "echo \"message: ${message}\""
     }
+
+    def login(url) {
+        script.sh "docker login -u ${username} -p ${password} ${url}"
+    }
+    def logout(url) {
+        script.sh "docker logout ${url}"
+    }
+
+    def build(imageName, imageTag) {
+        script.sh "docker build -t ${imageName}:${imageTag}"
+    }
 }

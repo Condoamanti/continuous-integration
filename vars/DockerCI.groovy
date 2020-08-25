@@ -13,6 +13,10 @@ def call(body) {
 
     try {
         node("jenkins-slave") {
+            withCredentials([string(credentialsId: "Condoamanti", variable: "SECRET")]) {
+                echo "Secret: ${SECRET}"
+            }
+
             stage("Clean Workspace") {
                 cleanWs()
             }
@@ -23,8 +27,8 @@ def call(body) {
 
             stage("Create Dockerfile") {
                 // Resolve correct package manager based on operating system
-                if (config.imageName == "centos") {
-                    switch (config.imageTag) {
+                if (config.imageSourceName == "centos") {
+                    switch (config.imageSourceTag) {
                         case "centos8":
                             osPackageManager = "dnf"
                             break;
@@ -34,32 +38,37 @@ def call(body) {
                     }
                 }
 
-                utilities.appendFile("${config.fileName}", "FROM ${config.imageName}:${config.imageTag}")
+                // Add line to identify what image and tag
+                utilities.appendFile("${config.fileName}", "FROM ${config.imageSourceName}:${config.imageSourceTag}")
 
+                // Add line for label of the maintainer
                 if (config.maintainer != null) {
                     utilities.appendFile("${config.fileName}", "LABEL MAINTAINER ${config.maintainer}")
                 }
 
-                // Add line to update docker image
+                // Add line to update
                 if (config.update) {
-                    
                     utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} update --assumeyes")
                 }
                 
-                // Add line to upgrade docker image
-                if (config.upgrade) {
-                    
+                // Add line to upgrade
+                if (config.upgrade) {      
                     utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} upgrade --assumeyes")
                 }
 
+                // Add lines to install dependency packages
                 for (i in config.packages) {
                     utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} install --assumeyes ${i}")
                 }
 
-                sh """
-                ls -lah
-                cat ./Dockerfile
-                """
+                // Add line to clean package cache
+                if (config.upgrade) {
+                    utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} clean all")
+                }
+            }
+
+            stage("Create Docker Image") {
+                docker.build("${config.imageDestinationName}:${config.imageDestinationTag}")
             }
         }
     } catch (e) {
