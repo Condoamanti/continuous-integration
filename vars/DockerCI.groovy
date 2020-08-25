@@ -43,15 +43,16 @@ def call(body) {
                 // Add line to update docker image
                 if (config.update) {
                     
-                    utilities.appendFile("${config.fileName}", "${osPackageManager} update --assumeyes")
+                    utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} update --assumeyes")
                 }
                 
                 // Add line to upgrade docker image
                 if (config.upgrade) {
                     
-                    utilities.appendFile("${config.fileName}", "${osPackageManager} upgrade --assumeyes")
+                    utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} upgrade --assumeyes")
                 }
 
+                println("${config.packages}")
                 for (i in config.packages) {
                     println(i)
                 }
