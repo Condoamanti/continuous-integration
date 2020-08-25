@@ -9,7 +9,7 @@ class Utilities {
 
     // Method appendFile which appends text to an existing file
     def appendFile(File fileName, String line, String encoding = "UTF-8") {
-        #def file = new File("${fileName}")
+        //def file = new File("${fileName}")
 
         if (fileName.exists() == false) {
             writeFile(file: "${fileName}", text: "${line}")
