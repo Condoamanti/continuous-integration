@@ -15,6 +15,9 @@ def call(body) {
             stage("Clean Workspace") {
                 cleanWs()
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh """
+                ls
+                """
             }
 
             stage ("Create Class Dependencies") {
@@ -63,7 +66,7 @@ def call(body) {
             }
 
             stage("Create Docker Image") {
-                docker.build("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                //docker.build("${config.imageDestinationName}", "${config.imageDestinationTag}")
             }
         } // node end
     } catch (e) {
