@@ -8,6 +8,7 @@ def call(body) {
 
     // Ensure imported classes are null
     Docker docker = null
+    Utilities utilities = null
 
     try {
         node("jenkins-slave") {
@@ -15,10 +16,14 @@ def call(body) {
                 cleanWs()
             }
 
+            stage ("Create Class Dependencies") {
+                utilities = new Utilities(this)
+            }
+
             stage("Create Dockerfile") {
+                utilities.appendFile("Dockerfile", "FROM ${config.imageName}:${config.imageTag}")
                 sh """
-                pwd
-                ls
+                cat ./Dockerfile
                 """
             }
 
