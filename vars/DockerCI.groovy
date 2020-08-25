@@ -49,17 +49,17 @@ def call(body) {
 
                 // Add line to update
                 if (config.update) {
-                    utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} update --assumeyes")
+                    utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} update --assumeyes --quiet")
                 }
                 
                 // Add line to upgrade
                 if (config.upgrade) {      
-                    utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} upgrade --assumeyes")
+                    utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} upgrade --assumeyes --quiet")
                 }
 
                 // Add lines to install dependency packages
                 for (i in config.packages) {
-                    utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} install --assumeyes ${i}")
+                    utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} install --assumeyes --quiet ${i}")
                 }
 
                 // Add line to clean package cache
