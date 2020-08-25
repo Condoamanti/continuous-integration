@@ -14,9 +14,10 @@ def call(body) {
         node("jenkins-slave") {  
             stage("Clean Workspace") {
                 cleanWs()
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                def test = credentials("dockerhub_password")
                 sh """
                 ls
+                echo \"secret: ${test}\"
                 """
             }
 
