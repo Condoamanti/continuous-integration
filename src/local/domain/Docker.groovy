@@ -24,7 +24,7 @@ class Docker {
     }
 
     def push (String imageName, String imageRepository = "private_repository", String imageTag = "latest") {
-        script.sh "docker push ${imageName}/${imageRepository}:${imageVersion}"
+        script.sh "docker push ${imageName}/${imageRepository}:${imageTag}"
     }
 
     
