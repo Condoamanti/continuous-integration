@@ -6,4 +6,16 @@ class Utilities {
     Utilities(script) {
         this.script = script
     }
+
+    // Method appendFile which appends text to an existing file
+    def appendFile(String fileName, String line, String encoding = "UTF-8") {
+        def file = new File("${fileName}")
+
+        if (!file.exists()) {
+            writeFile(file: "${fileName}", text: "${line}")
+        } else {
+            file.append("\n${line}")
+        }
+    }
+
 }
