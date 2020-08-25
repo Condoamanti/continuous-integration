@@ -22,6 +22,7 @@ def call(body) {
             }
 
             stage ("Create Class Dependencies") {
+                docker = new Docker(this)
                 utilities = new Utilities(this)
             }
 
