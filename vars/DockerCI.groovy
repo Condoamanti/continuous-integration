@@ -12,20 +12,18 @@ def call(body) {
     Utilities utilities = null
     try {
         node("jenkins-slave") {  
+            // Clean existing workspace
             stage("Clean Workspace") {
                 cleanWs()
-                def test = credentials("dockerhub_password")
-                sh """
-                ls
-                echo \"secret: ${test}\"
-                """
             }
 
+            // Create class declarations
             stage ("Create Class Dependencies") {
                 docker = new Docker(this)
                 utilities = new Utilities(this)
             }
 
+            // Creat Dockerfile
             stage("Create Dockerfile") {
                 // Resolve correct package manager based on operating system
                 if (config.imageSourceName == "centos") {
@@ -67,7 +65,17 @@ def call(body) {
             }
 
             stage("Create Docker Image") {
-                //docker.build("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                docker.build("${config.imageDestinationName}", "${config.imageDestinationTag}")
+            }
+            
+            stage ("Push Docker Image") {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
+                    docker.login("${dockerhubUsername}", "${dockerhubPassword}", "docker.io")
+                    docker.push("${config.imageDestinationName}", "private_repository", "${config.imageDestinationTag}")
+                    docker.logout("docker.io")
+                }
+
+
             }
         } // node end
     } catch (e) {

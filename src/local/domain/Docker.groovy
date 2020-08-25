@@ -12,7 +12,7 @@ class Docker {
         script.sh "echo \"message: ${message}\""
     }
 
-    def login(url) {
+    def login(String username, String password, String url) {
         script.sh "docker login -u ${username} -p ${password} ${url}"
     }
     def logout(url) {
@@ -22,4 +22,10 @@ class Docker {
     def build(String imageName, String imageTag, String path = ".") {
         script.sh "docker build -t ${imageName}:${imageTag} ${path}"
     }
+
+    def push (String imageName, String imageRepository = "private_repository", String imageTag = "latest") {
+        script.sh "docker push ${imageName}/${imageRepository}:${imageVersion}"
+    }
+
+    
 }
