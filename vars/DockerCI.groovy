@@ -65,9 +65,9 @@ def call(body) {
                 // Add line to clean package cache
                 utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} clean all")
             }
-            
+
             stage("Create Docker Image") {
-                docker.build("${config.imageDestinationName}:${config.imageDestinationTag}")
+                docker.build("${config.imageDestinationName}", "${config.imageDestinationTag}")
             }
         }
     } catch (e) {
