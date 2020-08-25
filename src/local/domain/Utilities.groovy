@@ -16,7 +16,7 @@ class Utilities {
             file.append("${line}\n")
         } else {
             def file = new File("${fileName}")
-            file.append("${line}\n")
+            file.appendFile("${line}\n")
         }
 
     }
