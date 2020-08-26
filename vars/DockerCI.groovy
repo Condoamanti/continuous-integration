@@ -69,13 +69,13 @@ def call(body) {
             }
             
             stage ("Push Docker Image") {
+                /*
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
                     docker.login("${dockerhubUsername}", "${dockerhubPassword}", "docker.io")
-                    docker.push("${config.imageDestinationName}", "private_repository", "${config.imageDestinationTag}")
+                    docker.push("private_repository", "${config.imageDestinationName}", , "${config.imageDestinationTag}")
                     docker.logout("docker.io")
                 }
-
-
+                */
             }
         } // node end
     } catch (e) {
