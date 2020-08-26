@@ -7,11 +7,6 @@ class Docker {
         this.script = script
     }
 
-    // Method test which prints out a message
-    def test(message = "Hello, World!") {
-        script.sh "echo \"message: ${message}\""
-    }
-
     def login(String username, String password, String url) {
         script.sh "docker login -u ${username} -p ${password} ${url}"
     }
@@ -19,11 +14,11 @@ class Docker {
         script.sh "docker logout ${url}"
     }
 
-    def build(String imageName, String imageRepository = "private_repository", String imageTag, String path = ".") {
+    def build(String imageName, String imageRepository, String imageTag, String path = ".") {
         script.sh "docker build -t ${imageName}/${imageRepository}:${imageTag} ${path}"
     }
 
-    def push (String imageName, String imageRepository = "private_repository", String imageTag = "latest") {
+    def push (String imageName, String imageRepository, String imageTag = "latest") {
         script.sh "docker push ${imageName}/${imageRepository}:${imageTag}"
     }
 

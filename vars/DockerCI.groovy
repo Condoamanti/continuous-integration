@@ -65,17 +65,15 @@ def call(body) {
             }
 
             stage("Create Docker Image") {
-                docker.build("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                docker.build("${config.imageDestinationName}", "${imageDestinationRepository}", "${config.imageDestinationTag}")
             }
             
             stage ("Push Docker Image") {
-                /*
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
-                    docker.login("${dockerhubUsername}", "${dockerhubPassword}", "docker.io")
-                    docker.push("private_repository", "${config.imageDestinationName}", , "${config.imageDestinationTag}")
-                    docker.logout("docker.io")
+                    docker.login("${dockerhubUsername}", "${dockerhubPassword}", "${imageDestinationRepositoryUrl}")
+                    docker.push("${imageDestinationRepository}", "${config.imageDestinationName}", , "${config.imageDestinationTag}")
+                    docker.logout("${imageDestinationRepositoryUrl}")
                 }
-                */
             }
         } // node end
     } catch (e) {
