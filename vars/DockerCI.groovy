@@ -65,13 +65,13 @@ def call(body) {
             }
 
             stage("Create Docker Image") {
-                docker.build("${config.imageDestinationName}", "${imageDestinationRepository}", "${config.imageDestinationTag}")
+                docker.build("${config.imageDestinationName}", "${config.imageDestinationRepositoryName}", "${config.imageDestinationTag}")
             }
             
             stage ("Push Docker Image") {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
                     docker.login("${dockerhubUsername}", "${dockerhubPassword}", "${config.imageDestinationRepositoryUrl}")
-                    docker.push("${config.imageDestinationRepositoryUrl}", "${config.imageDestinationName}", , "${config.imageDestinationTag}")
+                    docker.push("${config.imageDestinationName}", "${config.imageDestinationRepositoryName}", , "${config.imageDestinationTag}")
                     docker.logout("${config.imageDestinationRepositoryUrl}")
                 }
             }
