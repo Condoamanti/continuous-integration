@@ -70,9 +70,9 @@ def call(body) {
             
             stage ("Push Docker Image") {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
-                    docker.login("${dockerhubUsername}", "${dockerhubPassword}", "${imageDestinationRepositoryUrl}")
-                    docker.push("${imageDestinationRepository}", "${config.imageDestinationName}", , "${config.imageDestinationTag}")
-                    docker.logout("${imageDestinationRepositoryUrl}")
+                    docker.login("${dockerhubUsername}", "${dockerhubPassword}", "${config.imageDestinationRepositoryUrl}")
+                    docker.push("${config.imageDestinationRepositoryUrl}", "${config.imageDestinationName}", , "${config.imageDestinationTag}")
+                    docker.logout("${config.imageDestinationRepositoryUrl}")
                 }
             }
         } // node end
