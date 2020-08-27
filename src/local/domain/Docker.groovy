@@ -14,11 +14,11 @@ class Docker {
         script.sh "docker logout ${url}"
     }
 
-    def build(String imageName, String imageRepository, String imageTag, String path = ".") {
+    def build(String imageName, String imageTag, String path = ".") {
         script.sh "docker build -t ${imageName}:${imageTag} ${path}"
     }
 
-    def push (String imageName, String imageRepository, String imageTag = "latest") {
+    def push (String imageName, String imageTag = "latest") {
         script.sh "docker push ${imageName}:${imageTag}"
     }
 
