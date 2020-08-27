@@ -15,11 +15,11 @@ class Docker {
     }
 
     def build(String imageName, String imageRepository, String imageTag, String path = ".") {
-        script.sh "docker build -t ${imageName}/${imageRepository}:${imageTag} ${path}"
+        script.sh "docker build -t ${imageName}:${imageTag} ${path}"
     }
 
     def push (String imageName, String imageRepository, String imageTag = "latest") {
-        script.sh "docker push ${imageName}/${imageRepository}:${imageTag}"
+        script.sh "docker push ${imageName}:${imageTag}"
     }
 
     
