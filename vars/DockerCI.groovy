@@ -63,7 +63,7 @@ def call(body) {
                 // Add line to clean package cache
                 utilities.appendFile("${config.fileName}", "RUN ${osPackageManager} clean all")
             }
-            
+
             stage("Create Docker Image") {
                 docker.build("${config.imageDestinationName}", "${config.imageDestinationTag}")
             }
@@ -72,7 +72,7 @@ def call(body) {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
                     docker.login("${dockerhubUsername}", "${dockerhubPassword}", "${config.imageDestinationRepositoryUrl}")
                     docker.push("${config.imageDestinationName}", "${config.imageDestinationTag}")
-                    docker.logout("${config.imageDestinationRepositoryUrl}")
+                    docker.logout()
                 }
             }
         } // node end
