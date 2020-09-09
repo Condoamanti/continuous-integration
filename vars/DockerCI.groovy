@@ -88,6 +88,7 @@ def call(body) {
 
             stage ("Clean Docker Images") {
                 docker.remove("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                docker.remove("${config.imageSourceName}", "${config.imageSourceTag}")
             }
         
         } // node end
@@ -95,6 +96,5 @@ def call(body) {
         echo "Exception: ${e}"
         currentBuild.result = 'FAILURE'
     } finally {
-        docker.remove("${config.imageSourceName}", "${config.imageSourceTag}")
     } // finally end
 }
