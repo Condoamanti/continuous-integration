@@ -25,7 +25,7 @@ def call(body) {
                 if (config.imageSourceName == "centos") {
                     switch (config.imageSourceTag) {
                         case "centos7":
-                            osPackageManager = "dnf"
+                            osPackageManager = "yum"
                             break;
                         case "centos8":
                             osPackageManager = "dnf"
