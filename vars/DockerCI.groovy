@@ -6,8 +6,8 @@ def call(body) {
     body.delegate = config
     body()
 
-    def osPackageManager = null
-    def credentialsId = null
+    def String osPackageManager = null
+    def String credentialsId = null
     // Ensure imported classes are null
     Docker docker = null
     Utilities utilities = null
