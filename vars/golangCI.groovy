@@ -116,6 +116,7 @@ gpgcheck=0\" >> /etc/yum.repos.d/artifactory.repo 2>&1
         } catch (e) {
             echo "Exception: ${e}"
             currentBuild.result = 'FAILURE'
-        }
+        } finally {
+        } // finally end
     } // podTemplate end
 } // call(body) end
