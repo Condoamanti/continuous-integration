@@ -79,8 +79,8 @@ def call(body) {
                         break;
                 } // switch end
                 println("credentialsId: ${credentialsId}")
-                withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'dockerRepositoryUsername', passwordVariable: 'dockerRepositorybPassword')]) {
-                    docker.login("${dockerRepositoryUsername}", "${dockerRepositoryPassword}", "${config.imageDestinationRepositoryUrl}")
+                withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'dockerRepositoryUsername', passwordVariable: 'dockerRepositoryPassword')]) {
+                    docker.login("${dockerRepositoryUsername}", "${dockerRepositorybPassword}", "${config.imageDestinationRepositoryUrl}")
                     docker.push("${config.imageDestinationName}", "${config.imageDestinationTag}")
                     docker.logout()
                 }
