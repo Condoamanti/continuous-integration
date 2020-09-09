@@ -22,7 +22,7 @@ class Docker {
         script.sh "docker push ${imageName}:${imageTag}"
     }
 
-    def remove (String imageName, String imageTag) {
+    def remove (String imageName, String imageTag = "latest") {
         script.sh "docker image rm ${imageName}:${imageTag}"
     }
     

@@ -87,7 +87,7 @@ def call(body) {
 
             stage ("Clean Docker Images") {
                 docker.remove("${config.imageDestinationName}", "${config.imageDestinationTag}")
-                docker.remove("${config.imageSourceName}:${config.imageSourceTag}")
+                docker.remove("${config.imageSourceName}", "${config.imageSourceTag}")
             }
         
         } // node end
