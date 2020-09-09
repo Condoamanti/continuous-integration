@@ -72,10 +72,10 @@ def call(body) {
             stage ("Push Docker Image") {
                 switch (config.imageDestinationRepositoryUrl) {
                     case "docker.io":
-                        def credentialsId = "dockerhub_credentials"
+                        credentialsId = "dockerhub_credentials"
                         break;
                     default:
-                        def credentialsId = "artifactory_credentials"
+                        credentialsId = "artifactory_credentials"
                         break;
                 } // switch end
                 println("credentialsId: ${credentialsId}")
