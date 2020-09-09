@@ -26,6 +26,9 @@ def call(body) {
                 // Resolve correct package manager based on operating system
                 if (config.imageSourceName == "centos") {
                     switch (config.imageSourceTag) {
+                        case "centos7":
+                            osPackageManager = "dnf"
+                            break;
                         case "centos8":
                             osPackageManager = "dnf"
                             break;
