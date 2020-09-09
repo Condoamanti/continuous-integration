@@ -7,6 +7,7 @@ def call(body) {
     body()
 
     def osPackageManager = null
+    def credentialsId = null
     // Ensure imported classes are null
     Docker docker = null
     Utilities utilities = null
