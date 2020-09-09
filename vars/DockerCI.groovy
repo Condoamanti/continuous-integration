@@ -13,18 +13,15 @@ def call(body) {
     Utilities utilities = null
     try {
         node("jenkins-slave") {  
-            // Clean existing workspace
             stage("Clean Workspace") {
                 cleanWs()
             }
 
-            // Create class declarations
             stage ("Create Class Dependencies") {
                 docker = new Docker(this)
                 utilities = new Utilities(this)
             }
 
-            // Creat Dockerfile
             stage("Create Dockerfile") {
                 // Resolve correct package manager based on operating system
                 if (config.imageSourceName == "centos") {
@@ -72,9 +69,11 @@ def call(body) {
             stage ("Push Docker Image") {
                 switch (config.imageDestinationRepositoryUrl) {
                     case "docker.io":
+                        // Use dockerhub credentials
                         credentialsId = "dockerhub_credentials"
                         break;
                     default:
+                        // Use artifactory credentials
                         credentialsId = "artifactory_credentials"
                         break;
                 } // switch end
@@ -86,7 +85,11 @@ def call(body) {
                 }
             }
 
-            stage ("Clean Docker Images") {}
+            stage ("Clean Docker Images") {
+                docker.remove("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                docker.remove("${config.imageSourceName}:${config.imageSourceTag}")
+            }
+        
         } // node end
     } catch (e) {
         echo "Exception: ${e}"

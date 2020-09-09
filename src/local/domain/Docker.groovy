@@ -22,5 +22,8 @@ class Docker {
         script.sh "docker push ${imageName}:${imageTag}"
     }
 
+    def remove (String imageName, String, imageTag) {
+        script.sh "docker image rm ${imageName}:${imageTag}"
+    }
     
 }
