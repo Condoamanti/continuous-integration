@@ -70,7 +70,7 @@ def call(body) {
             
             stage ("Push Docker Image") {
                 switch (config.imageDestinationRepositoryUrl) {
-                    case "docker.io"
+                    case "docker.io":
                         // Create Docker image within docker.io
                         withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
                             docker.login("${dockerhubUsername}", "${dockerhubPassword}", "${config.imageDestinationRepositoryUrl}")
