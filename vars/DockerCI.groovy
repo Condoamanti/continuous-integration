@@ -69,16 +69,29 @@ def call(body) {
             }
             
             stage ("Push Docker Image") {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
-                    docker.login("${dockerhubUsername}", "${dockerhubPassword}", "${config.imageDestinationRepositoryUrl}")
-                    docker.push("${config.imageDestinationName}", "${config.imageDestinationTag}")
-                    docker.logout()
-                }
+                switch (config.imageDestinationRepositoryUrl) {
+                    case "docker.io"
+                        // Create Docker image within docker.io
+                        withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
+                            docker.login("${dockerhubUsername}", "${dockerhubPassword}", "${config.imageDestinationRepositoryUrl}")
+                            docker.push("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                            docker.logout()
+                        }
+                        break;
+                    default:
+                        // Create Docker image within artifactory
+                        withCredentials([usernamePassword(credentialsId: 'artifactory_credentials', usernameVariable: 'artifactoryUsername', passwordVariable: 'artifactoryPassword')]) {
+                            docker.login("${artifactoryUsername}", "${artifactoryPassword}", "${config.imageDestinationRepositoryUrl}")
+                            docker.push("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                            docker.logout()
+                        }
+                        break;
+                } // switch end
             }
         } // node end
     } catch (e) {
         echo "Exception: ${e}"
         currentBuild.result = 'FAILURE'
     } finally {
-    }
+    } // finally end
 }
