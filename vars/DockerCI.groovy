@@ -71,23 +71,21 @@ def call(body) {
             stage ("Push Docker Image") {
                 switch (config.imageDestinationRepositoryUrl) {
                     case "docker.io":
-                        // Create Docker image within docker.io
-                        withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'dockerhubUsername', passwordVariable: 'dockerhubPassword')]) {
-                            docker.login("${dockerhubUsername}", "${dockerhubPassword}", "${config.imageDestinationRepositoryUrl}")
-                            docker.push("${config.imageDestinationName}", "${config.imageDestinationTag}")
-                            docker.logout()
-                        }
+                        def credentialsId = "dockerhub_credentials"
                         break;
                     default:
-                        // Create Docker image within artifactory
-                        withCredentials([usernamePassword(credentialsId: 'artifactory_credentials', usernameVariable: 'artifactoryUsername', passwordVariable: 'artifactoryPassword')]) {
-                            docker.login("${artifactoryUsername}", "${artifactoryPassword}", "${config.imageDestinationRepositoryUrl}")
-                            docker.push("${config.imageDestinationName}", "${config.imageDestinationTag}")
-                            docker.logout()
-                        }
+                        def credentialsId = "artifactory_credentials"
                         break;
                 } // switch end
+                println("credentialsId: ${credentialsId}")
+                withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'dockerRepositoryUsername', passwordVariable: 'dockerRepositorybPassword')]) {
+                    docker.login("${dockerRepositoryUsername}", "${dockerRepositoryPassword}", "${config.imageDestinationRepositoryUrl}")
+                    docker.push("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                    docker.logout()
+                }
             }
+
+            stage ("Clean Docker Images") {}
         } // node end
     } catch (e) {
         echo "Exception: ${e}"
