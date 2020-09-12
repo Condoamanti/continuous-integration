@@ -7,6 +7,7 @@ def call(body) {
     body()
 
     def String osPackageManager = null
+    def String osPackageManagerParameters = null
     def String credentialsId = null
     
     // Ensure imported classes are null
@@ -23,18 +24,25 @@ def call(body) {
 
             stage("Create Dockerfile") {
                 // Resolve correct package manager based on operating system
-                if (config.imageSourceName == "centos") {
-                    switch (config.imageSourceTag) {
-                        case "centos7":
-                            osPackageManager = "yum"
-                            break;
-                        case "centos8":
-                            osPackageManager = "dnf"
-                            break;
-                        default:
-                            osPackageManager = "yum"
-                            break;
-                    }
+                switch (config.imageSourceName) {
+                    case ["centos"]:
+                        osPackageManagerParameters = "--assumeyes --quiet"
+                        switch (config.imageSourceTag) {
+                            case ["centos8"]:
+                                osPackageManager = "dnf"
+                                break;
+                            default:
+                                osPackageManager = "yum"
+                                break;
+                        }
+                        break;
+                    case ["alpine"]:
+                        osPackageManagerParameters = "--quiet --no-progress"
+                        switch (config.imageSourceTag) {
+                            default:
+                                osPackageManager = "apk"
+                                break;
+                        }
                 }
 
                 // Add line to identify what image and tag
@@ -45,20 +53,37 @@ def call(body) {
                     docker.appendFile("${config.fileName}", "LABEL MAINTAINER ${config.maintainer}")
                 }
 
-                // Add line to update
-                if (config.update) {
-                    docker.appendFile("${config.fileName}", "RUN ${osPackageManager} update --assumeyes --quiet")
-                }
-                
-                // Add line to upgrade
-                if (config.upgrade) {      
-                    docker.appendFile("${config.fileName}", "RUN ${osPackageManager} upgrade --assumeyes --quiet")
+                // Package installation lines
+                switch (osPackageManager) {
+                    case ["yum", "dnf"]:
+                        // Add line to update
+                        if (config.update) {
+                            docker.appendFile("${config.fileName}", "RUN ${osPackageManager} update ${osPackageManagerParameters}")
+                        }
+                        // Add line to upgrade
+                        if (config.upgrade) {      
+                            docker.appendFile("${config.fileName}", "RUN ${osPackageManager} upgrade ${osPackageManagerParameters}")
+                        }
+                        // Add lines to install dependency packages
+                        for (i in config.packages) {
+                            docker.appendFile("${config.fileName}", "RUN ${osPackageManager} install ${osPackageManagerParameters} ${i}")
+                        }
+                        break;
+                    case ["apk"]
+                        // Add line to update
+                        if (config.update) {
+                            docker.appendFile("${config.fileName}", "RUN ${osPackageManager} update ${osPackageManagerParameters}")
+                        }
+                       // Add line to upgrade
+                        if (config.upgrade) {      
+                            docker.appendFile("${config.fileName}", "RUN ${osPackageManager} upgrade ${osPackageManagerParameters} ")
+                        }
+                        // Add lines to install dependency packages
+                        for (i in config.packages) {
+                            docker.appendFile("${config.fileName}", "RUN ${osPackageManager} add ${osPackageManagerParameters} ${i}")
+                        }
                 }
 
-                // Add lines to install dependency packages
-                for (i in config.packages) {
-                    docker.appendFile("${config.fileName}", "RUN ${osPackageManager} install --assumeyes --quiet ${i}")
-                }
 
                 // Add line to clean package cache
                 docker.appendFile("${config.fileName}", "RUN ${osPackageManager} clean all")
