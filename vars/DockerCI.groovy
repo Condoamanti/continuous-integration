@@ -86,6 +86,15 @@ def call(body) {
                         break;
                 }
 
+                // Add lines to configure environment variables
+                for (i in config.environmentVariables) {
+                    docker.appendFile("${config.fileName}", "ENV ${i}")
+                }
+
+                // Add lines to run additional commands
+                for (i in config.additionalCommands) {
+                    docker.appendFile("${config.fileName}", "RUN ${i}")
+                }
             }
 
             stage("Create Docker Image") {
