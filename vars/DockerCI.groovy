@@ -83,8 +83,6 @@ def call(body) {
                         for (i in config.packages) {
                             docker.appendFile("${config.fileName}", "RUN ${osPackageManager} add ${osPackageManagerParameters} ${i}")
                         }
-                        // Add line to clean package cache
-                        docker.appendFile("${config.fileName}", "RUN ${osPackageManager} cache clean")
                         break;
                 }
 
