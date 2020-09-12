@@ -68,7 +68,7 @@ def call(body) {
                             docker.appendFile("${config.fileName}", "RUN ${osPackageManager} install ${osPackageManagerParameters} ${i}")
                         }
                         break;
-                    case ["apk"]
+                    case ["apk"]:
                         // Add line to update
                         if (config.update) {
                             docker.appendFile("${config.fileName}", "RUN ${osPackageManager} update ${osPackageManagerParameters}")
