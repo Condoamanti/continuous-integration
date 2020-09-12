@@ -35,7 +35,6 @@ def call(body) {
                                 osPackageManager = "yum"
                                 break;
                         }
-                        break;
                     case ["alpine"]:
                         osPackageManagerParameters = "--quiet --no-progress"
                         switch (config.imageSourceTag) {
