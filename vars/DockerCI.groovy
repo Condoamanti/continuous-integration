@@ -67,6 +67,8 @@ def call(body) {
                         for (i in config.packages) {
                             docker.appendFile("${config.fileName}", "RUN ${osPackageManager} install ${osPackageManagerParameters} ${i}")
                         }
+                        // Add line to clean package cache
+                        docker.appendFile("${config.fileName}", "RUN ${osPackageManager} clean all")
                         break;
                     case ["apk"]:
                         // Add line to update
@@ -81,11 +83,11 @@ def call(body) {
                         for (i in config.packages) {
                             docker.appendFile("${config.fileName}", "RUN ${osPackageManager} add ${osPackageManagerParameters} ${i}")
                         }
+                        // Add line to clean package cache
+                        docker.appendFile("${config.fileName}", "RUN ${osPackageManager} cache clean")
+                        break;
                 }
 
-
-                // Add line to clean package cache
-                docker.appendFile("${config.fileName}", "RUN ${osPackageManager} clean all")
             }
 
             stage("Create Docker Image") {
