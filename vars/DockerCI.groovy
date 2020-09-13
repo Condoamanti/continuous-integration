@@ -98,7 +98,7 @@ def call(body) {
             }
 
             stage("Create Docker Image") {
-                docker.build("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                docker.build("${config.imageDestinationRepositoryUrl}/${config.imageDestinationName}", "${config.imageDestinationTag}")
             }
             
             stage ("Push Docker Image") {
