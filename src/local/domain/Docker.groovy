@@ -14,7 +14,7 @@ class Docker {
         script.sh "docker logout"
     }
 
-    def build(String imageName, String imageTag, String path = ".") {
+    def build(String imageName, String imageTag = "latest", String path = ".") {
         script.sh "docker build -t ${imageName}:${imageTag} ${path}"
     }
 
