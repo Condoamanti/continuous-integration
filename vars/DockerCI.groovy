@@ -115,13 +115,13 @@ def call(body) {
                 println("credentialsId: ${credentialsId}")
                 withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'dockerRepositoryUsername', passwordVariable: 'dockerRepositoryPassword')]) {
                     docker.login("${dockerRepositoryUsername}", "${dockerRepositoryPassword}", "${config.imageDestinationRepositoryUrl}")
-                    docker.push("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                    docker.push("${imageDestinationRepositoryUrl}/${config.imageDestinationName}", "${config.imageDestinationTag}")
                     docker.logout()
                 }
             }
 
             stage ("Clean Docker Images") {
-                docker.remove("${config.imageDestinationName}", "${config.imageDestinationTag}")
+                docker.remove("${imageDestinationRepositoryUrl}/${config.imageDestinationName}", "${config.imageDestinationTag}")
                 docker.remove("${config.imageSourceName}", "${config.imageSourceTag}")
             }
         
