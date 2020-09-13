@@ -14,15 +14,15 @@ class Docker {
         script.sh "docker logout"
     }
 
-    def build(String imageName, String imageTag = "latest", String path = ".") {
+    def build(String imageName, String imageTag, String path = ".") {
         script.sh "docker build -t ${imageName}:${imageTag} ${path}"
     }
 
-    def push (String imageName, String imageTag = "latest") {
+    def push (String imageName, String imageTag) {
         script.sh "docker push ${imageName}:${imageTag}"
     }
 
-    def remove (String imageName, String imageTag = "latest") {
+    def remove (String imageName, String imageTag) {
         script.sh "docker image rm ${imageName}:${imageTag}"
     }
 
