@@ -117,7 +117,7 @@ def call(body) {
                 withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'dockerRepositoryUsername', passwordVariable: 'dockerRepositoryPassword')]) {
                     docker.login("${dockerRepositoryUsername}", "${dockerRepositoryPassword}", "${config.imageDestinationRepositoryUrl}")
                     docker.push("${config.imageDestinationRepositoryUrl}/${config.imageDestinationName}", "${config.imageDestinationTag}")
-                    docker.logout()
+                    docker.logout("${config.imageDestinationRepositoryUrl}")
                 }
             }
 

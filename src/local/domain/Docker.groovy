@@ -10,8 +10,8 @@ class Docker {
     def login(String username, String password, String url) {
         script.sh "docker login -u ${username} -p ${password} ${url}"
     }
-    def logout() {
-        script.sh "docker logout"
+    def logout(String url) {
+        script.sh "docker logout ${url}"
     }
 
     def build(String imageName, String imageTag, String path = ".") {
