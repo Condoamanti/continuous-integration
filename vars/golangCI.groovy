@@ -21,7 +21,7 @@ def call(body) {
             image: 'artifactory.jittersolutions.com/docker-local/alpine-golang:latest',
             ttyEnabled: true,
             privileged: true,
-            command: '/usr/sbin/init'
+            command: '/bin/sh'
         )
     ]) {
 
