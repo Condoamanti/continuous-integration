@@ -14,6 +14,7 @@ def call(body) {
     showRawYaml: 'false',
     runAsUser: "0",
     runAsGroup: "1000",
+    imagePullSecrets: [ "artifactory-credentials"],
     containers: [
         containerTemplate(
             name: 'alpine-golang',
