@@ -33,6 +33,7 @@ def call(body) {
 
                 container("alpine-golang") {
                     echo "${config.message}"
+                    go get "github.com/Condoamanti/programming"
                 } // container end
             } // node end
         } catch (e) {
