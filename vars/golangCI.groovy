@@ -32,7 +32,7 @@ def call(body) {
                 //} // stage end
 
                 container("alpine-golang") {
-                    sh "echo ${config.message}"
+                    echo "${config.message}"
                 } // container end
             } // node end
         } catch (e) {
