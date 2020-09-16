@@ -6,12 +6,15 @@ def call(body) {
     body.delegate = config
     body()
 
+    def projectInfo = [:]
     def String osPackageManager = null
     def String osPackageManagerParameters = null
     def String credentialsId = null
     
     // Ensure imported classes are null
     Docker docker = null
+    Utility docker = null
+
     try {
         node("jenkins-slave") {  
             stage("Clean Workspace") {
@@ -20,6 +23,12 @@ def call(body) {
 
             stage ("Create Class Dependencies") {
                 docker = new Docker(this)
+                utility = new Utility(this)
+            }
+
+            stage ("test") {
+                projectVariables = checkout imageSourceName
+                projectInfo = utility.getProjectInfo("${projectVariables}")
             }
 
             stage("Create Dockerfile") {
@@ -84,7 +93,7 @@ def call(body) {
                             docker.appendFile("${config.fileName}", "RUN ${osPackageManager} add ${osPackageManagerParameters} ${i}")
                         }
                         break;
-                }
+                } // switch end
 
                 // Add lines to configure environment variables
                 for (i in config.environmentVariables) {
@@ -95,9 +104,7 @@ def call(body) {
                 for (i in config.additionalCommands) {
                     docker.appendFile("${config.fileName}", "RUN ${i}")
                 }
-                
-                docker.appendFile("${config.fileName}", "CMD /bin/sh")
-            }
+            } // stage end
 
             stage("Create Docker Image") {
                 docker.build("${config.imageDestinationRepositoryUrl}/${config.imageDestinationName}", "${config.imageDestinationTag}")
@@ -119,8 +126,8 @@ def call(body) {
                     docker.login("${dockerRepositoryUsername}", "${dockerRepositoryPassword}", "${config.imageDestinationRepositoryUrl}")
                     docker.push("${config.imageDestinationRepositoryUrl}/${config.imageDestinationName}", "${config.imageDestinationTag}")
                     docker.logout("${config.imageDestinationRepositoryUrl}")
-                }
-            }
+                } // withCredentials end
+            } // stage end
 
             stage ("Clean Docker Images") {
                 docker.remove("${config.imageDestinationRepositoryUrl}/${config.imageDestinationName}", "${config.imageDestinationTag}")
