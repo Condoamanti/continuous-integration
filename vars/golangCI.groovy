@@ -28,15 +28,13 @@ def call(body) {
 
         try {
             node(POD_LABEL) {
-                //stage("Get Golang Project") {
-                //    git url: 'https://github.com/Condoamanti/programming.git'
-                //} // stage end
-
                 container("alpine-golang") {
-                    go get "${config.projectPath}"
-                    go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
-                    go cd "$GOPATH/src/${config.projectPath}"
-                    go run .
+                    stage("Run Golang Project") {
+                        go get "${config.projectPath}"
+                        go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
+                        go cd "$GOPATH/src/${config.projectPath}"
+                        go run .
+                    }
                 } // container end
             } // node end
         } catch (e) {
