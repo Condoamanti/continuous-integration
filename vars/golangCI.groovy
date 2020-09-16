@@ -42,7 +42,7 @@ def call(body) {
                     
                     stage ("Build Go Project") {
                         //go.build("${config.projectPath}")
-                        go.set("${config.projectPath}")
+                        sh "cd \$GOPATH/src/${config.projectPath}"
                     } //stage end
 
                     stage ("Run Go Project") {
