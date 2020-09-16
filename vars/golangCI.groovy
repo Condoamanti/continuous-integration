@@ -6,6 +6,9 @@ def call(body) {
     body.delegate = config
     body()
 
+    // Ensure imported classes are null
+    Go go = null
+
     // podTemplate configuration for the container running the below stages
     podTemplate(
     cloud: 'kubernetes',
@@ -27,9 +30,13 @@ def call(body) {
     ]) {
 
         try {
+            stage ("Create Class Dependencies") {
+                docker = new Docker(this)
+            }
+            
             node(POD_LABEL) {
                 container("alpine-golang") {
-                    go "get ${config.projectPath}"
+                    go.get("${config.projectPath}")
                     ls "/go/src/"
                     //go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
                     //go cd "$GOPATH/src/${config.projectPath}"
