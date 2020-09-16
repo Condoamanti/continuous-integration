@@ -19,6 +19,6 @@ class Go {
     }
 
     def run(String projectPath = ".") {
-        script.sh "go run ${projectPath}"
+        script.sh "go run /go/src/${projectPath}"
     }
 }

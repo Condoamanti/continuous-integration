@@ -46,7 +46,7 @@ def call(body) {
                     } //stage end
 
                     stage ("Run Go Project") {
-                        go.run()
+                        go.run(${config.projectPath})
                     } //stage end
                 } // container end
             } // node end
