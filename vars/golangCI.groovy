@@ -68,10 +68,10 @@ def call(body) {
                         withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
                             sh "hostname"
                             sh "whoami"
-                            sh "ls -lah /usr/bin/"
+                            sh "ls -lah /jfrog/bin"
                             sh "cat /etc/alpine-release"
                             sh "sleep 1h"
-                            //jfrog.publish2("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
+                            jfrog.publish2("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
                         }
                     } // stage end
                 } // container end
