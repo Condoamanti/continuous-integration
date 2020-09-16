@@ -22,7 +22,7 @@ def call(body) {
             ttyEnabled: true,
             privileged: true,
             command: '/bin/sh',
-            ports: [config.ports]
+            ports: ["${config.ports}"]
         )
     ]) {
 
