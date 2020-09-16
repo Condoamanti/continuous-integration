@@ -41,7 +41,7 @@ def call(body) {
                     } //stage end
                     
                     stage ("Build Go Project") {
-                        go.build("${config.projectPath}")
+                        //go.build("${config.projectPath}")
                         go.setDirectory("${config.projectPath}")
                     } //stage end
 
