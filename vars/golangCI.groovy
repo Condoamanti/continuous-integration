@@ -29,12 +29,10 @@ def call(body) {
         try {
             node(POD_LABEL) {
                 container("alpine-golang") {
-                    stage("Run Golang Project") {
-                        go get "${config.projectPath}"
-                        //go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
-                        //go cd "$GOPATH/src/${config.projectPath}"
-                        //go run .
-                    }
+                    go get "${config.projectPath}"
+                    go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
+                    go cd "$GOPATH/src/${config.projectPath}"
+                    go run .
                 } // container end
             } // node end
         } catch (e) {
