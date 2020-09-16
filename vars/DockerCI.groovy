@@ -6,14 +6,12 @@ def call(body) {
     body.delegate = config
     body()
 
-    def projectInfo = [:]
     def String osPackageManager = null
     def String osPackageManagerParameters = null
     def String credentialsId = null
     
     // Ensure imported classes are null
     Docker docker = null
-    Utility utility = null
 
     try {
         node("jenkins-slave") {  
@@ -23,13 +21,6 @@ def call(body) {
 
             stage ("Create Class Dependencies") {
                 docker = new Docker(this)
-                utility = new Utility(this)
-            }
-
-            stage ("test") {
-                projectVariables = checkout scm
-                projectInfo = utility.getProjectInfo("${projectVariables}")
-                println("${projectInfo.commitHash}")
             }
 
             stage("Create Dockerfile") {
