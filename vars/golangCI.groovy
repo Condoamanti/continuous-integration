@@ -36,7 +36,11 @@ def call(body) {
 
         try {
             node(POD_LABEL) {
+                container("jnlp") {
+
+                }
                 container("alpine-golang") {
+                    sh "ls -lah /usr/bin/"
                     stage ("Create Class Dependencies") {
                         go = new Go(this)
                         jfrog = new JFrog(this)
