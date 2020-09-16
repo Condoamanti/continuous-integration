@@ -24,9 +24,6 @@ class JFrog {
     }
 
     def publish2(String repositoryName, String packageVersion, String repositoryUrl, String repositoryUser, String repositoryPassword) {
-        if (script.fileExists("/usr/bin/jfrog") == false) {
-            script.sh "curl -fLs https://api.bintray.com/content/jfrog/jfrog-cli-go/\$latest/jfrog-cli-linux-amd64/jfrog?bt_package=jfrog-cli-linux-amd64 -o /usr/bin/jfrog"
-        }
         script.sh "jfrog rt go-publish ${repositoryName} ${packageVersion} --url=${repositoryUrl} --user=${repositoryUser} --password=${repositoryPassword}"
     }
 }
