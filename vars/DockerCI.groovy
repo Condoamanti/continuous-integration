@@ -96,6 +96,7 @@ def call(body) {
                     docker.appendFile("${config.fileName}", "RUN ${i}")
                 }
                 
+                docker.appendFile("${config.fileName}", "CMD /bin/sh")
             }
 
             stage("Create Docker Image") {
@@ -114,8 +115,6 @@ def call(body) {
                         break;
                 } // switch end
                 println("credentialsId: ${credentialsId}")
-                sh "echo ${GIT_BRANCH}"
-                sh "echo ${GIT_COMMIT}"
                 withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'dockerRepositoryUsername', passwordVariable: 'dockerRepositoryPassword')]) {
                     docker.login("${dockerRepositoryUsername}", "${dockerRepositoryPassword}", "${config.imageDestinationRepositoryUrl}")
                     docker.push("${config.imageDestinationRepositoryUrl}/${config.imageDestinationName}", "${config.imageDestinationTag}")
