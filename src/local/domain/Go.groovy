@@ -12,10 +12,10 @@ class Go {
     }
 
     def set(String projectPath) {
-        script.sh "cd \$GOAPATH/src/${projectPath}"
+        script.sh "cd /go/src/${projectPath}"
     }
     def build(String projectPath) {
-        script.sh "go build -o \$GOPATH/src/${projectPath} ${projectPath}"
+        script.sh "go build -o /go/src/${projectPath} ${projectPath}"
     }
 
     def run(String projectPath = ".") {
