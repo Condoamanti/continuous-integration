@@ -40,16 +40,16 @@ def call(body) {
                     stage ("Create Class Dependencies") {
                         go = new Go(this)
                         jfrog = new JFrog(this)
-                    }
+                    } // stage end
 
                     stage ("Get Go Project Files") {
                         go.get("${config.projectPath}")
-                    } //stage end
+                    } // stage end
                     
                     stage ("Build Go Project") {
                         go.build("${config.projectPath}")
                         go.set("${config.projectPath}")
-                    } //stage end
+                    } // stage end
 
                     stage ("Publish Go Project") {
                         switch (config.packageRepositoryName) {
@@ -64,7 +64,7 @@ def call(body) {
                         withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
                             jfrog.publish2("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
                         }
-                    }
+                    } // stage end
                 } // container end
             } // node end
         } catch (e) {
