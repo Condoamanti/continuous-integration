@@ -22,21 +22,20 @@ def call(body) {
             ttyEnabled: true,
             privileged: true,
             command: '/bin/sh',
-            ports: [config.ports],
+            ports: [config.ports]
         )
     ]) {
 
         try {
             node(POD_LABEL) {
-                stage("Run Golang Project") {
-                    container("alpine-golang") {
-                    
+                container("alpine-golang") {
+                    stage("Run Golang Project") {
                         go get "${config.projectPath}"
-                        go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
-                        go cd "$GOPATH/src/${config.projectPath}"
-                        go run .
-                    }// container end
-                } // stage end
+                        //go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
+                        //go cd "$GOPATH/src/${config.projectPath}"
+                        //go run .
+                    }
+                } // container end
             } // node end
         } catch (e) {
             echo "Exception: ${e}"
