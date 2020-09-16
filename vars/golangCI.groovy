@@ -25,7 +25,6 @@ def call(body) {
             ttyEnabled: true,
             privileged: true,
             command: '/bin/sh',
-            envVars: [envVar(key: "GOPATH", value: "/go")],
             ports: [portMapping(name: 'http', containerPort: 8081, hostPort: 8081)],
         )
     ]) {
