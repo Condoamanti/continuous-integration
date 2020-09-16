@@ -22,6 +22,7 @@ def call(body) {
             ttyEnabled: true,
             privileged: true,
             command: '/bin/sh'
+            ports: [config.ports]
         )
     ]) {
 
@@ -32,8 +33,10 @@ def call(body) {
                 //} // stage end
 
                 container("alpine-golang") {
-                    echo "${config.message}"
-                    go get "github.com/Condoamanti/programming"
+                    go get "${config.projectPath}"
+                    go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
+                    go cd "$GOPATH/src/${config.projectPath}"
+                    go run .
                 } // container end
             } // node end
         } catch (e) {
