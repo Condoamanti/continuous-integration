@@ -40,7 +40,7 @@ def call(body) {
                     stage ("Test") {
                         go.get("${config.projectPath}")
                         go.build("${config.projectPath}")
-                        sh "cd \$GOPATH/src/${config.projectPath}"
+                        go.workingDirectory("${config.projectPath}")
                         go.run()
                     } //stage end
                     
