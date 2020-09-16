@@ -66,7 +66,6 @@ def call(body) {
                             sh "whoami"
                             sh "ls -lah /"
                             sh "cat /etc/alpine-release"
-                            sh "sleep 1h"
                             jfrog.publish2("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
                         }
                     } // stage end
