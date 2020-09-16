@@ -28,7 +28,7 @@ def call(body) {
             name: 'alpine-golang',
             image: 'artifactory.jittersolutions.com/docker-local/alpine-golang:latest',
             ttyEnabled: true,
-            privileged: true,
+            //privileged: true,
             command: '/bin/sh',
             ports: [portMapping(name: 'http', containerPort: 8081, hostPort: 8081)],
         )
