@@ -61,8 +61,6 @@ def call(body) {
                                 break;
                         } // switch end
                         println("credentialsId: ${credentialsId}")
-                        println("${BUILD_NUMBER}")
-                        sh "curl -fLs https://api.bintray.com/content/jfrog/jfrog-cli-go/\$latest/jfrog-cli-linux-amd64/jfrog?bt_package=jfrog-cli-linux-amd64 -o /usr/bin/jfrog"
                         withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
                             jfrog.publish("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
                         }

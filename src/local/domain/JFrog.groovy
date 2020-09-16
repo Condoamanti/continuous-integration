@@ -7,7 +7,26 @@ class JFrog {
         this.script = script
     }
 
+    // Method appendFile which appends text to an existing file
+    def appendFile(String fileName = "Dockerfile", String line, String encoding = "UTF-8") {
+        if (script.fileExists("${fileName}") == false) {
+            // Create file if it does not exist already
+            script.writeFile(file: "${fileName}", text: "${line}")
+        } else {
+            // Append text to fileName
+            def currentText = script.readFile "${fileName}"
+            script.writeFile file: "${fileName}", text: "${currentText}\n${line}"
+        }
+    }
+
     def publish(String repositoryName, String packageVersion, String repositoryUrl, String repositoryUser, String repositoryPassword) {
+        script.sh "jfrog rt go-publish ${repositoryName} ${packageVersion} --url=${repositoryUrl} --user=${repositoryUser} --password=${repositoryPassword}"
+    }
+
+    def publish2(String repositoryName, String packageVersion, String repositoryUrl, String repositoryUser, String repositoryPassword) {
+        if (script.fileExists("/usr/bin/jfrog") == false) {
+            script.sh "curl -fLs https://api.bintray.com/content/jfrog/jfrog-cli-go/\$latest/jfrog-cli-linux-amd64/jfrog?bt_package=jfrog-cli-linux-amd64 -o /usr/bin/jfrog"
+        }
         script.sh "jfrog rt go-publish ${repositoryName} ${packageVersion} --url=${repositoryUrl} --user=${repositoryUser} --password=${repositoryPassword}"
     }
 }
