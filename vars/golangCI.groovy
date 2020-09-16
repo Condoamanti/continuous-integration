@@ -30,8 +30,9 @@ def call(body) {
             node(POD_LABEL) {
                 container("alpine-golang") {
                     go get "${config.projectPath}"
-                    go build -o "\$GOPATH/src/${config.projectPath}" "${projectPath}"
-                    go cd "$GOPATH/src/${config.projectPath}"
+                    ls "/go/src/"
+                    //go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
+                    //go cd "$GOPATH/src/${config.projectPath}"
                     //go run .
                 } // container end
             } // node end
