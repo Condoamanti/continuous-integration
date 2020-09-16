@@ -96,7 +96,7 @@ def call(body) {
                     docker.appendFile("${config.fileName}", "RUN ${i}")
                 }
                 
-                docker.appendFile("${config.fileName}", "ADD https://api.bintray.com/content/jfrog/jfrog-cli-go/\$latest/jfrog-cli-linux-amd64/jfrog?bt_package=jfrog-cli-linux-amd64 /usr/bin/jfrog")
+                docker.appendFile("${config.fileName}", "ADD https://api.bintray.com/content/jfrog/jfrog-cli-go/\\\$latest/jfrog-cli-linux-amd64/jfrog?bt_package=jfrog-cli-linux-amd64 /usr/bin/jfrog")
             }
 
             stage("Create Docker Image") {
