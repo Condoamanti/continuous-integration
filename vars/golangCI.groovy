@@ -29,7 +29,7 @@ def call(body) {
         try {
             node(POD_LABEL) {
                 container("alpine-golang") {
-                    go get "${config.projectPath}"
+                    go "get ${config.projectPath}"
                     ls "/go/src/"
                     //go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
                     //go cd "$GOPATH/src/${config.projectPath}"
