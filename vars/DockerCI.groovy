@@ -29,6 +29,7 @@ def call(body) {
             stage ("test") {
                 projectVariables = checkout imageSourceName
                 projectInfo = utility.getProjectInfo("${projectVariables}")
+                println("${projectInfo.commitHash}")
             }
 
             stage("Create Dockerfile") {
