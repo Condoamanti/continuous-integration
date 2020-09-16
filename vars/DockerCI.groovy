@@ -27,7 +27,7 @@ def call(body) {
             }
 
             stage ("test") {
-                projectVariables = checkout imageSourceName
+                projectVariables = checkout scm
                 projectInfo = utility.getProjectInfo("${projectVariables}")
                 println("${projectInfo.commitHash}")
             }
