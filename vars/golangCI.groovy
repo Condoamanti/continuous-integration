@@ -22,7 +22,7 @@ def call(body) {
             ttyEnabled: true,
             privileged: true,
             command: '/bin/sh',
-            ports: ports: [portMapping(name: 'http', containerPort: 8081, hostPort: 8081)]
+            ports: [portMapping(name: 'http', containerPort: 8081, hostPort: 8081)]
         )
     ]) {
 
