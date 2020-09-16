@@ -32,18 +32,22 @@ def call(body) {
         try {
             node(POD_LABEL) {
                 container("alpine-golang") {
-
                     stage ("Create Class Dependencies") {
                         go = new Go(this)
                     }
 
-                    stage ("Test") {
+                    stage ("Get Go Project Files") {
                         go.get("${config.projectPath}")
-                        go.build("${config.projectPath}")
-                        go.workingDirectory("${config.projectPath}")
-                        go.run()
                     } //stage end
                     
+                    stage ("Build Go Project") {
+                        go.build("${config.projectPath}")
+                        go.setDirectory("${config.projectPath}")
+                    } //stage end
+
+                    stage ("Run Go Project") {
+                        go.run()
+                    } //stage end
                 } // container end
             } // node end
         } catch (e) {
