@@ -13,7 +13,7 @@ def call(body) {
     
     // Ensure imported classes are null
     Docker docker = null
-    Utility docker = null
+    Utility utility = null
 
     try {
         node("jenkins-slave") {  
