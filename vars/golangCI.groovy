@@ -36,11 +36,7 @@ def call(body) {
 
         try {
             node(POD_LABEL) {
-                container("jnlp") {
-
-                }
                 container("alpine-golang") {
-                    sh "ls -lah /usr/bin/"
                     stage ("Create Class Dependencies") {
                         go = new Go(this)
                         jfrog = new JFrog(this)
@@ -68,7 +64,7 @@ def call(body) {
                         withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
                             sh "hostname"
                             sh "whoami"
-                            sh "ls -lah /jfrog/bin"
+                            sh "ls -lah /"
                             sh "cat /etc/alpine-release"
                             sh "sleep 1h"
                             jfrog.publish2("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
