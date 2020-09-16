@@ -66,7 +66,7 @@ def call(body) {
                             sh "whoami"
                             sh "ls -lah /usr/bin/"
                             sh "cat /etc/alpine-release"
-                            jfrog.publish2("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
+                            //jfrog.publish2("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
                         }
                     } // stage end
                 } // container end
