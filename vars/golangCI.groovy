@@ -39,10 +39,9 @@ def call(body) {
 
                     stage ("Test") {
                         go.get("${config.projectPath}")
-                        sh "ls /go/src/"
-                        //go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
-                        //go cd "$GOPATH/src/${config.projectPath}"
-                        //go run .
+                        go.build("${config.projectPath}")
+                        sh "cd \$GOPATH/src/${config.projectPath}"
+                        go.run()
                     } //stage end
                     
                 } // container end

@@ -11,6 +11,10 @@ class Go {
         script.sh "go get ${projectPath}"
     }
 
+    def workingDirectory(String $projectPath) {
+        script.sh "cd \$GOPATH/src/${projectPath}"
+    }
+
     def build(String projectPath) {
         script.sh "go build -o \$GOPATH/src/${projectPath} ${projectPath}"
     }
