@@ -11,7 +11,7 @@ class Go {
         script.sh "go get ${projectPath}"
     }
 
-    def workingDirectory(String $projectPath) {
+    def setDirectory(String $projectPath) {
         script.sh "cd \$GOPATH/src/${projectPath}"
     }
 
