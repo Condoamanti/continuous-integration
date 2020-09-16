@@ -32,7 +32,7 @@ def call(body) {
                     go get "${config.projectPath}"
                     go build -o "$GOPATH/src/${config.projectPath}" "${projectPath}"
                     go cd "$GOPATH/src/${config.projectPath}"
-                    go run .
+                    //go run .
                 } // container end
             } // node end
         } catch (e) {
