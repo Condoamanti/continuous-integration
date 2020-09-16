@@ -11,6 +11,9 @@ class Go {
         script.sh "go get ${projectPath}"
     }
 
+    def set(String projectPath) {
+        script.sh "cd \$GOAPATH/src/${projectPath}"
+    }
     def build(String projectPath) {
         script.sh "go build -o \$GOPATH/src/${projectPath} ${projectPath}"
     }
