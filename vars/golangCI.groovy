@@ -52,7 +52,7 @@ def call(body) {
                     } //stage end
 
                     stage ("Publish Go Project") {
-                        switch (config.packageRepositoryDestination) {
+                        switch (config.packageRepositoryName) {
                             default:
                                 // Use artifactory credentials
                                 credentialsId = "artifactory_credentials"
