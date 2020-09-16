@@ -10,7 +10,6 @@ def call(body) {
     def String osPackageManagerParameters = null
     def String credentialsId = null
     
-    
     // Ensure imported classes are null
     Docker docker = null
     try {

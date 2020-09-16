@@ -6,8 +6,13 @@ def call(body) {
     body.delegate = config
     body()
 
+    def String credentialsId = null
+    def String packageRepositoryName = null
+    def String packageRepositoryUrl = null
+
     // Ensure imported classes are null
     Go go = null
+    JFrog jfrog = null
 
     // podTemplate configuration for the container running the below stages
     podTemplate(
@@ -34,6 +39,7 @@ def call(body) {
                 container("alpine-golang") {
                     stage ("Create Class Dependencies") {
                         go = new Go(this)
+                        jfrog = new JFrog(this)
                     }
 
                     stage ("Get Go Project Files") {
@@ -45,9 +51,21 @@ def call(body) {
                         go.set("${config.projectPath}")
                     } //stage end
 
-                    stage ("Run Go Project") {
-                        go.run("${config.projectPath}")
-                    } //stage end
+                    stage ("Publish Go Project") {
+                        switch (config.packageRepositoryDestination) {
+                            default:
+                                // Use artifactory credentials
+                                credentialsId = "artifactory_credentials"
+                                packageRepositoryName = "go-local"
+                                packageRepositoryUrl = "https://artifactory.jittersolutions.com"
+                                break;
+                        } // switch end
+                        println("credentialsId: ${credentialsId}")
+                        println("${BUILD_NUMBER}")
+                        withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
+                            jfrog.publish("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
+                        }
+                    }
                 } // container end
             } // node end
         } catch (e) {
