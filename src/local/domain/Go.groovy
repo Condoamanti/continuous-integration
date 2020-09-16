@@ -1,9 +1,9 @@
 package local.domain
-class Golang {
+class Go {
     def script
 
     // Constructor with the instance of the script invoking this specific class
-    Golang(script) {
+    Go(script) {
         this.script = script
     }
 
