@@ -36,7 +36,7 @@ def call(body) {
                                 break;
                         }
                     case ["alpine"]:
-                        osPackageManagerParameters = "--quiet --no-progress"
+                        osPackageManagerParameters = "--quiet --no-progress --no-cache"
                         switch (config.imageSourceTag) {
                             default:
                                 osPackageManager = "apk"
