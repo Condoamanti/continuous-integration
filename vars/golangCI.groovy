@@ -23,6 +23,7 @@ def call(body) {
     runAsUser: "0",
     runAsGroup: "1000",
     imagePullSecrets: [ "artifactory-credentials"],
+    podRetention: "never()"
     containers: [
         containerTemplate(
             name: 'alpine-golang',
