@@ -27,6 +27,7 @@ def call(body) {
         containerTemplate(
             name: 'alpine-golang',
             image: 'artifactory.jittersolutions.com/docker-local/alpine-golang:latest',
+            alwaysPullImage: true,
             ttyEnabled: true,
             //privileged: true,
             command: '/bin/sh',
