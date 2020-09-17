@@ -12,6 +12,6 @@ class JFrog {
     }
 
     def publish2(String repositoryName, String packageVersion, String repositoryUrl, String repositoryUser, String repositoryPassword) {
-        script.sh "/jfrog/bin/jfrog rt go-publish ${repositoryName} ${packageVersion} --url=${repositoryUrl} --user=${repositoryUser} --password=${repositoryPassword}"
+        script.sh "/usr/bin/jfrog rt go-publish ${repositoryName} ${packageVersion} --url=${repositoryUrl} --user=${repositoryUser} --password=${repositoryPassword}"
     }
 }
