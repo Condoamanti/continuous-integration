@@ -63,9 +63,7 @@ def call(body) {
                         } // switch end
                         println("credentialsId: ${credentialsId}")
                         withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
-                            sh "ls -lah /"
-                            sh "ls -lah /usr/bin/"
-                            jfrog.publish2("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
+                            jfrog.publish("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
                         }
                     } // stage end
                 } // container end
