@@ -58,7 +58,7 @@ def call(body) {
                                 // Use artifactory credentials
                                 credentialsId = "artifactory_credentials"
                                 packageRepositoryName = "go-local"
-                                packageRepositoryUrl = "https://artifactory.jittersolutions.com"
+                                packageRepositoryUrl = "https://artifactory.jittersolutions.com/artifactory"
                                 break;
                         } // switch end
                         println("credentialsId: ${credentialsId}")
