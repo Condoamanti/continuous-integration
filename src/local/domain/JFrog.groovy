@@ -7,7 +7,7 @@ class JFrog {
         this.script = script
     }
 
-    def publish(String packageRepositoryName, String packageVersion, String packageRepositoryUrl, String packageRepositoryUsername, String packageRepositoryPassword, String projectFileExlusions) {
-        script.sh "jfrog rt go-publish ${packageRepositoryName} ${packageVersion} --url=${packageRepositoryUrl} --user=${packageRepositoryUsername} --password=${packageRepositoryPassword} --exclusions=Jenkinsfile;.gitignore;${projectFileExlusions}"
+    def publish(String packageRepositoryName, String packageVersion, String packageRepositoryUrl, String packageRepositoryUsername, String packageRepositoryPassword) {
+        script.sh "jfrog rt go-publish ${packageRepositoryName} ${packageVersion} --url=${packageRepositoryUrl} --user=${packageRepositoryUsername} --password=${packageRepositoryPassword}"
     }
 }

@@ -63,7 +63,7 @@ def call(body) {
                         } // switch end
                         println("credentialsId: ${credentialsId}")
                         withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
-                            jfrog.publish("${packageRepositoryName}", "v0.0.${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}", "${config.projectFileExlusions}")
+                            jfrog.publish("${packageRepositoryName}", "v0.0.${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
                         }
                     } // stage end
                 } // container end
