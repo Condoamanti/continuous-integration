@@ -64,6 +64,7 @@ def call(body) {
                         println("credentialsId: ${credentialsId}")
                         withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
                             sh "ls"
+                            sh "pwd"
                             jfrog.publish("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
                         }
                     } // stage end
