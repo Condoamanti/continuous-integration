@@ -53,18 +53,22 @@ def call(body) {
                     } // stage end
 
                     stage ("Publish Go Project") {
-                        switch (config.packageRepositoryName) {
+                        switch (config.projectRepositoryDestination) {
                             default:
                                 // Use artifactory credentials
                                 credentialsId = "artifactory_credentials"
                                 packageRepositoryName = "go-local"
-                                packageRepositoryUrl = "https://artifactory.jittersolutions.com"
+                                packageRepositoryUrl = "https://artifactory.jittersolutions.com/artifactory"
                                 break;
                         } // switch end
                         println("credentialsId: ${credentialsId}")
                         withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
+<<<<<<< HEAD
                             sh "ls"
                             jfrog.publish("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
+=======
+                            jfrog.publish("${packageRepositoryName}", "v0.0.${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
+>>>>>>> 3f49ef5f6290bf9956cc1898b6c2fb0d2dc4b305
                         }
                     } // stage end
                 } // container end
