@@ -10,8 +10,4 @@ class JFrog {
     def publish(String repositoryName, String packageVersion, String repositoryUrl, String repositoryUser, String repositoryPassword) {
         script.sh "jfrog rt go-publish ${repositoryName} ${packageVersion} --url=${repositoryUrl} --user=${repositoryUser} --password=${repositoryPassword}"
     }
-
-    def publish2(String repositoryName, String packageVersion, String repositoryUrl, String repositoryUser, String repositoryPassword) {
-        script.sh "jfrog rt go-publish ${repositoryName} ${packageVersion} --url=${repositoryUrl} --user=${repositoryUser} --password=${repositoryPassword}"
-    }
 }
