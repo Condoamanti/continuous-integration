@@ -49,7 +49,7 @@ def call(body) {
                     
                     stage ("Build Go Project") {
                         go.build("${config.projectPath}")
-                        go.set("${config.projectPath}")
+                        
                     } // stage end
 
                     stage ("Publish Go Project") {
@@ -65,6 +65,7 @@ def call(body) {
                         withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
                             sh "ls"
                             sh "pwd"
+                            go.set("${config.projectPath}")
                             jfrog.publish("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
                         }
                     } // stage end
