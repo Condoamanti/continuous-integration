@@ -62,12 +62,13 @@ def call(body) {
                                 break;
                         } // switch end
                         println("credentialsId: ${credentialsId}")
-                        dir("/go/src/${projectPath}")
-                        sh "ls"
-                        sh "pwd"
-                        withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
-                            jfrog.publish("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
-                        }
+                        dir("/go/src/${projectPath}") {
+                            sh "ls"
+                            sh "pwd"
+                            withCredentials([usernamePassword(credentialsId: "${credentialsId}", usernameVariable: 'packageRepositoryUsername', passwordVariable: 'packageRepositoryPassword')]) {
+                                jfrog.publish("${packageRepositoryName}", "${BUILD_NUMBER}", "${packageRepositoryUrl}", "${packageRepositoryUsername}", "${packageRepositoryPassword}")
+                            }
+                        } // dir end
                     } // stage end
                 } // container end
             } // node end
