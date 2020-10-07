@@ -96,6 +96,10 @@ def call(body) {
                 for (i in config.additionalCommands) {
                     docker.appendFile("${config.fileName}", "RUN ${i}")
                 }
+
+                if (config.entryPoint != null) {
+                    docker.appendFile("${config.fileName}", "ENTRYPOINT [${config.entryPoint}]")
+                }
             } // stage end
 
             stage("Create Docker Image") {
