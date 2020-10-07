@@ -98,7 +98,7 @@ def call(body) {
                 }
 
                 if (config.entryPoint != null) {
-                    docker.appendFile("${config.fileName}", "ENTRYPOINT ${config.entryPoint}")
+                    docker.appendFile("${config.fileName}", "ENTRYPOINT [\"${config.entryPoint}\"]")
                 }
             } // stage end
 
